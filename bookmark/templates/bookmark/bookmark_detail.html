@@ -1,0 +1,8 @@
+{% extends 'base.html' %} <!--extends : 상속-->
+
+{% block title %} Detail {% endblock %} <!--Title-->
+
+{% block content %}
+    {{ object.site_name }}<br>
+    {{ object.url }}
+{% endblock %}

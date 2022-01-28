@@ -1,0 +1,65 @@
+{% extends 'base.html' %} <!--extends : 상속-->
+
+{% block title %} Bookmark List {% endblock %} <!--Title-->
+
+{% block content %}
+    <div class = "btn-group">
+        <a href = "{% url 'add' %}" class = "btn btn-info">Add Bookmark</a>
+    </div>
+    <p></p>
+    <table class = "table">
+        <thread>
+            <tr> <!--테이블 로우. 한 줄-->
+                <th scope = "col">#</th> <!--테이블 헤더. 필드. 상위의 제목 부분-->
+                <th scope = "col">Site</th>
+                <th scope = "col">URL</th>
+                <th scope = "col">Modify</th>
+                <th scope = "col">Delete</th>
+            </tr>
+        </thread>
+        <tbody>
+            {% for bookmark in object_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td> <!--table description. 각 id 출력-->
+                <td><a href = "{% url 'detail' pk=bookmark.id %}"> {{ bookmark.site_name }}</a></td>
+                <td><a href = "{{ bookmark.url }}" target = "_blank">{{ bookmark.url }}</a></td>
+                <td><a href = "{% url 'update' pk=bookmark.id %}" class = "btn btn-success btn-sm">Modify</a></td>
+                <td><a href = "{% url 'delete' pk=bookmark.id %}" class = "btn btn-danger btn-sm">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+<!--페이지 기능-->
+{% block pagination %}
+{% if is_paginated %}
+<ul class = "pagination justify-content-center pagination-sm">
+    {% if page_obj.has_previous %}
+    <li class = "page-item">
+        <a class = "page-link" href = "{% url 'list' %}?page={{ page_obj.previous_page_number }}"
+           tabindex = "-1">Previous</a> <!--이전버튼 ?page=부분 공백 X-->
+    </li>
+    {% else %}
+    <li class = "page-item disabled"> <!--더이상 이전페이지가 없으면 클릭할 수 없게 만들기-->
+    <a class = "page-link" href = "#" tabindex = "-1">Previous</a>
+    </li>
+    {% endif %}
+
+    {% for object in page_obj.paginator.page_range %}
+    <li class = "page-item {% if page_obj.number == forloop.counter %} disabled {% endif %}">
+        <a class = "page-link" href = "{{ request.path }}?page={{ forloop.counter }}">{{ forloop.counter }}</a> <!--중간. 숫자 부분-->
+    </li>
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+    <li class = "page-item">
+        <a class = "page-link" href = "{% url 'list' %}?page={{ page_obj.next_page_number }}">Next</a> <!--다음버튼-->
+    </li>
+    {% else %}
+    <li class = "page-item disabled"> <!--더이상 다음페이지가 없으면 클릭할 수 없게 만들기-->
+        <a class = "page-link" href = "#">Next</a>
+    </li>
+    {% endif %}
+</ul>
+{% endif %}
+{% endblock %}

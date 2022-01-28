@@ -1,0 +1,15 @@
+{% extends 'base.html' %} <!--extends : 상속-->
+
+{% block title %} Confirm Delete {% endblock %} <!--Title-->
+
+{% block content %}
+    <form action = "" method = "post">
+        {% csrf_token %}
+        <div class = "alert alert-danger">
+            Do you want to delete "{{ object }}" ?
+        </div>
+        <input type = "submit" value = "Delete" class = "btn btn-info btn-sm">
+    </form>
+{% endblock %}
+
+

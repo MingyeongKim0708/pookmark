@@ -1,0 +1,11 @@
+{% extends 'base.html' %} <!--extends : 상속-->
+
+{% block title %} Update {% endblock %} <!--Title-->
+
+{% block content %}
+    <form action = "" method = "post">
+        {% csrf_token %}
+        {{ form.as_p }} <!--{{ form.as_p }}는 폼에 정의한 subject, content 속성에 해당하는 HTML 코드를 자동으로 생성한다.-->
+        <input type = "submit" value = "Update" class = "btn btn-info btn-sm">
+    </form>
+{% endblock %}
